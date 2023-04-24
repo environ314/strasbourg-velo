@@ -3,6 +3,6 @@
 
 /html
 /script
-/script
-/traffic_data.db
+/data/traffic_data.db
+/data/compteurs.csv
 
