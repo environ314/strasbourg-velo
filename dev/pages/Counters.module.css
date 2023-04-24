@@ -1,0 +1,16 @@
+.plot {
+  width: 100%;
+  /* overflow-x: scroll; */
+}
+
+.PlotDaily {
+  width: 100%;
+  /* overflow-x: auto; */
+}
+
+.PlotWeekly {
+  /* overflow-x: auto; */
+  max-width: 100%; /* L'image ne dépasse pas la largeur de son conteneur */
+  height: auto; /* La hauteur est automatiquement ajustée pour maintenir le ratio d'aspect */
+
+}
