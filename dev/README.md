@@ -1,4 +1,4 @@
-Ce petit site récupère les données ouvertes des compteurs de passages à vélo de la ville de Paris pour en faire une présentation synthétique.
+Ce petit site récupère les données ouvertes des compteurs de passages à vélo de la ville de Strasbourg pour en faire une présentation synthétique.
 
 En particulier on peut :
 
