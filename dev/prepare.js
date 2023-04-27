@@ -6,7 +6,7 @@ const slugify = require("slugify");
 
 const strip = (name) => {
   const num = /^\d+/;
-  const direction = /[NESO]+-[NESO]+/g;
+  const direction = /([NESO]+-[NESO]+)|(\->.*)|(greater.*)/g;
   return fix(name)
     .replace(num, "")
     .replace(direction, "")
