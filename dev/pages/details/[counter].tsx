@@ -7,7 +7,7 @@ import slugify from 'slugify';
 
 import styles from '../Counters.module.css';
 import matomoScript from '../../components/matomoScript';
-
+import MetaTags from '../../components/metaTags';
 
 import Plot from '../../components/plot';
 import PlotDaily from '../../components/plot-daily';
@@ -93,7 +93,8 @@ export default function Counters({
           rel="stylesheet"
         />
         <script dangerouslySetInnerHTML={{ __html: matomoScript }} />
-
+        <MetaTags
+          title={`Vélos à ${details.title}`} />
       </Head>
       <div className="p-4">
         <Link href="/">

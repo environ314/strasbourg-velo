@@ -10,7 +10,7 @@ import { counts, metadatas, buildTime } from '../data/read_data';
 import { prepareStats } from '../lib/helpers';
 
 import matomoScript from '../components/matomoScript';
-
+import MetaTags from '../components/metaTags';
 type Props = {
   counts: CounterStat[];
   buildTime: string;
@@ -37,6 +37,15 @@ export default function AllCounters({ counts, buildTime }: Props) {
   const [highlight, setHighlight] = useState(null);
   const [avg, setAvg] = useState(true);
 
+  const topThreeStats = stats
+    .map((stat, index) => ({ ...stat, rank: index + 1 }))
+    .filter((stat) => stat.rank >= 1 && stat.rank <= 3);
+  const podiumText = topThreeStats
+    .map((stat) => `${stat.rank} : (${stat.id})`)
+    .join(', ');
+
+  const description = `Podium des pistes hier : ${podiumText}`;
+
   return (
     <>
       <Head>
@@ -52,13 +61,16 @@ export default function AllCounters({ counts, buildTime }: Props) {
           rel="stylesheet"
         />
         <script dangerouslySetInnerHTML={{ __html: matomoScript }} />
-
+        <MetaTags
+          title="Compteurs vélo à Strasbourg"
+          description={description}
+        />
       </Head>
       <div className="p-4">
         <Link href="/">
           <img
             className="float-left w-20 cursor-pointer"
-            src="./logo.png"
+            src="/logo.png"
             alt="Logo Velo en Bretzel"
           />
         </Link>
