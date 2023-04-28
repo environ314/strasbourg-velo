@@ -6,6 +6,8 @@ import _ from 'lodash';
 import slugify from 'slugify';
 
 import styles from '../Counters.module.css';
+import matomoScript from '../../components/matomoScript';
+
 
 import Plot from '../../components/plot';
 import PlotDaily from '../../components/plot-daily';
@@ -90,6 +92,8 @@ export default function Counters({
           href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
           rel="stylesheet"
         />
+        <script dangerouslySetInnerHTML={{ __html: matomoScript }} />
+
       </Head>
       <div className="p-4">
         <Link href="/">

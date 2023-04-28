@@ -9,6 +9,8 @@ import Map from '../components/map';
 import { counts, metadatas, buildTime } from '../data/read_data';
 import { prepareStats } from '../lib/helpers';
 
+import matomoScript from '../components/matomoScript';
+
 type Props = {
   counts: CounterStat[];
   buildTime: string;
@@ -49,6 +51,8 @@ export default function AllCounters({ counts, buildTime }: Props) {
           href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
           rel="stylesheet"
         />
+        <script dangerouslySetInnerHTML={{ __html: matomoScript }} />
+
       </Head>
       <div className="p-4">
         <Link href="/">
