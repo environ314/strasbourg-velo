@@ -64,8 +64,13 @@ export default function AllCounters({ counts, buildTime }: Props) {
         <MetaTags
           title="Compteurs vélo à Strasbourg"
           description={description}
+          imageWidth='802'
+          imageHeight='638'
+          imageUrl="https://strasbourgvelo.fr/preview_index.jpg"
         />
       </Head>
+
+
       <div className="p-4">
         <Link href="/">
           <img

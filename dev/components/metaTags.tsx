@@ -13,10 +13,10 @@ interface MetaTagsProps {
 const MetaTags: React.FC<MetaTagsProps> = ({
     title = 'Vélos à Strasbourg',
     description = `Découvrez les graphiques heure par heure de 40 pistes cyclables. Suivez l évolution des données et analysez les tendances au fil du temps. Cliquez pour en savoir plus.`,
-    imageWidth = '363',
-    imageHeight = '269',
+    imageWidth = '857',
+    imageHeight = '482',
     url = 'https://strasbourgvelo.fr',
-    imageUrl = `${url}/graphique_rs.png`,
+    imageUrl = `${url}/graphique_rs.jpg`,
 }) => {
     return (
         <>

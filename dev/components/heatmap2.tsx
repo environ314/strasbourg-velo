@@ -20,15 +20,21 @@ const HeatmapHour = ({ counters }: Props) => {
             title: 'Passages horaires sur la semaine',
             config: { view: { strokeWidth: 0, step: 15 }, axis: { domain: false } },
             mark: { type: 'rect', height: 15 },
+            transform: [
+                {
+                    calculate: "hours(datum.time) < 3 ? datetime(year(datum.time), month(datum.time), date(datum.time)-1, hours(datum.time)) : datetime(year(datum.time), month(datum.time), date(datum.time), hours(datum.time))",
+                    as: "shifted_time"
+                }
+            ],
             encoding: {
                 x: {
-                    field: 'time',
+                    field: 'shifted_time',
                     timeUnit: 'day',
                     type: 'ordinal',
                     title: 'Jour de la semaine',
                 },
                 y: {
-                    field: 'time',
+                    field: 'shifted_time',
                     timeUnit: 'hours',
                     type: 'ordinal',
                     title: 'Passages par heure',
