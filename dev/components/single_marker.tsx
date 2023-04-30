@@ -10,7 +10,7 @@ const Map = ({ coord }: { coord: [number, number] }) => {
   useEffect(() => {
     const newMap = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/environ314/clgr1gxv1000k01pn6q205t7r',
+      style: process.env.NEXT_PUBLIC_MAPBOX_MAP,
       center: coord,
       zoom: 16,
     });

@@ -50,7 +50,7 @@ const Map = ({ counters, highlight }: Props) => {
   useEffect(() => {
     const newMap = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/environ314/clgr1gxv1000k01pn6q205t7r',
+      style: process.env.NEXT_PUBLIC_MAPBOX_MAP,
       center: parseCoord(process.env.NEXT_PUBLIC_MAPBOX_CENTER),
       zoom: parseFloat(process.env.NEXT_PUBLIC_MAPBOX_ZOOM),
     });
