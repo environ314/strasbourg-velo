@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { TopLevelSpec as VlSpec } from 'vega-lite';
 import vegaEmbed from 'vega-embed';
 import timeFormatLocale from '../data/locale_fr';
+import { None } from 'vega';
 
 type Props = {
     counters: Counter;
@@ -18,28 +19,36 @@ const HeatmapHour = ({ counters }: Props) => {
             },
             "transform": [
                 {
-                    "calculate": "hours(datum.time) < 3 ? datetime(year(datum.time), month(datum.time), date(datum.time)-1, hours(datum.time)) : datetime(year(datum.time), month(datum.time), date(datum.time), hours(datum.time))",
+                    "calculate": "hours(datum.time) < 3 ? datetime(year(datum.time), month(datum.time), date(datum.time)-1, hours(datum.time)) : datetime(datum.time)",
                     "as": "shifted_time"
                 },
-                {
-                    "timeUnit": "day",
-                    "field": "shifted_time",
-                    "as": "dayOfWeek"
-                },
+
+                { "timeUnit": "day", "field": "shifted_time", "as": "dayOfWeek" },
                 {
                     "joinaggregate": [
-                        {
-                            "op": "mean",
-                            "field": "count",
-                            "as": "sum_count_by_day"
-                        }
+                        { "op": "mean", "field": "count", "as": "sum_count_by_day" }
                     ],
                     "groupby": ["dayOfWeek"]
                 },
                 {
-                    "calculate": "24*datum.sum_count_by_day",
+                    "joinaggregate": [
+                        { "op": "distinct", "field": "id", "as": "unique_id_count" }
+                    ]
+                },
+                {
+                    "joinaggregate": [
+                        { "op": "sum", "field": "count", "as": "sum_count_by_day_and_hour" }
+                    ],
+                    "groupby": ["dayOfWeek", "shifted_time"]
+                },
+                {
+                    "calculate": "24*datum.unique_id_count*datum.sum_count_by_day",
                     "as": "count_by_dayOfWeek"
                 },
+                {
+                    "calculate": "datum.unique_id_count*datum.sum_count_by_day",
+                    "as": "count_by_hourOfDay"
+                }
             ],
             "hconcat": [
                 {
@@ -47,7 +56,7 @@ const HeatmapHour = ({ counters }: Props) => {
                         {
                             // GRAPHIQUE 1
                             "width": 300,
-                            "title": "Passages horaires sur la semaine",
+                            "title": "Passages du jour en fonction de l'heure",
                             "mark": { "type": "rect" },
                             "encoding": {
                                 "x": {
@@ -60,7 +69,7 @@ const HeatmapHour = ({ counters }: Props) => {
                                     "field": "shifted_time",
                                     "timeUnit": "hours",
                                     "type": "ordinal",
-                                    "title": "Passages par heure",
+                                    "title": "heures du jour",
                                     "scale": {
                                         "padding": 0,
                                         "domain": [
@@ -93,15 +102,15 @@ const HeatmapHour = ({ counters }: Props) => {
                                     "axis": { "format": "%Hh" }
                                 },
                                 "color": {
-                                    "field": "count",
+                                    "field": "sum_count_by_day_and_hour",
                                     "aggregate": "mean",
                                     "type": "quantitative",
-                                    "legend": { "title": "Passages" },
+                                    "legend": { "title": "Passages/h" },
                                     "scale": { "scheme": "viridis" }
                                 },
                                 "tooltip": [
                                     {
-                                        "field": "count",
+                                        "field": "sum_count_by_day_and_hour",
                                         "aggregate": "mean",
                                         "title": "Nombre moyen de passages",
                                         "format": ".0f"
@@ -126,22 +135,22 @@ const HeatmapHour = ({ counters }: Props) => {
                                     "field": "count_by_dayOfWeek",
                                     "aggregate": "mean",
                                     "type": "quantitative",
-                                    "title": "Passages par jour",
+                                    "title": "Total",
                                     "scale": {
                                         "padding": 0,
                                         "reverse": true
                                     }
                                 },
                                 "color": {
-                                    "field": "count",
+                                    "field": "sum_count_by_day_and_hour",
                                     "aggregate": "mean",
                                     "type": "quantitative",
                                     "scale": { "scheme": "" }
                                 },
                                 "tooltip": [
                                     {
-                                        "field": "count_by_dayOfWeek",
-                                        "title": "Nombre cumulé de passages",
+                                        "field": "count_by_hourOfDay",
+                                        "title": "et par heure",
                                         "format": ".0f"
                                     }
                                 ]
@@ -157,7 +166,7 @@ const HeatmapHour = ({ counters }: Props) => {
                     "encoding": {
                         "x": {
                             "title": "Total",
-                            "field": "count",
+                            "field": "sum_count_by_day_and_hour",
                             "aggregate": "mean",
                             "type": "quantitative",
                         },
@@ -165,7 +174,7 @@ const HeatmapHour = ({ counters }: Props) => {
                             "field": "shifted_time",
                             "timeUnit": "hours",
                             "type": "ordinal",
-                            "title": "Passages par heure",
+                            "title": "",
                             "scale": {
                                 "padding": 0,
                                 "domain": [
@@ -198,7 +207,7 @@ const HeatmapHour = ({ counters }: Props) => {
                             "axis": { "format": "%Hh" }
                         },
                         "color": {
-                            "field": "count",
+                            "field": "sum_count_by_day_and_hour",
                             "aggregate": "mean",
                             "type": "quantitative",
                             "legend": { "title": "Passages" },
@@ -206,7 +215,7 @@ const HeatmapHour = ({ counters }: Props) => {
                         },
                         "tooltip": [
                             {
-                                "field": "count",
+                                "field": "sum_count_by_day_and_hour",
                                 "aggregate": "mean",
                                 "title": "Nombre moyen de passages",
                                 "format": ".0f"

@@ -22,7 +22,7 @@ import {
 } from '../../lib/types';
 import { strip } from '../../lib/helpers';
 import Heatmap from '../../components/heatmap';
-import HeatmapHour from '../../components/heatmap2';
+import HeatmapHour from '../../components/HeatmapHour';
 import { DateTime } from 'luxon';
 import HeatmapSens from '../../components/heatmapSens';
 
